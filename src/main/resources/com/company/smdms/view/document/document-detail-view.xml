@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://documentDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="documentDc"
+                  class="com.company.smdms.entity.Document">
+            <fetchPlan extends="_base">
+                <property name="writers" fetchPlan="_base"/>
+                <property name="webdavDocument" fetchPlan="_base"/>
+                <property name="readers" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="documentDl"/>
+            <collection id="writersDc" property="writers"/>
+            <collection id="readersDc" property="readers"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="documentDc">
+            <entityPicker id="webdavDocumentField" property="webdavDocument">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <textField id="titleField" property="title"/>
+        </formLayout>
+        <h4 text="msg://com.company.smdms.entity/Document.writers"/>
+        <hbox id="writersButtonsPanel" classNames="buttons-panel">
+            <button action="writersDataGrid.add"/>
+            <button action="writersDataGrid.exclude"/>
+        </hbox>
+        <dataGrid id="writersDataGrid" dataContainer="writersDc" width="100%" minHeight="20em">
+            <actions>
+                <action id="add" type="list_add"/>
+                <action id="exclude" type="list_exclude"/>
+            </actions>
+            <columns>
+                <column property="firstName"/>
+                <column property="lastName"/>
+                <column property="username"/>
+                <column property="avatar"/>
+                <column property="email"/>
+                <column property="active"/>
+                <column property="timeZoneId"/>
+            </columns>
+        </dataGrid>
+        <hbox id="readersButtonsPanel" classNames="buttons-panel">
+            <button action="readersDataGrid.add"/>
+            <button action="readersDataGrid.exclude"/>
+        </hbox>
+        <h4 text="msg://com.company.smdms.entity/Document.readers"/>
+        <dataGrid id="readersDataGrid" dataContainer="readersDc" width="100%" height="100%">
+            <actions>
+                <action id="add" type="list_add"/>
+                <action id="exclude" type="list_exclude"/>
+            </actions>
+            <columns>
+                <column property="avatar"/>
+                <column property="version"/>
+                <column property="username"/>
+                <column property="password"/>
+                <column property="firstName"/>
+                <column property="lastName"/>
+                <column property="email"/>
+                <column property="active"/>
+                <column property="timeZoneId"/>
+            </columns>
+        </dataGrid>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

@@ -12,6 +12,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -21,6 +23,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
@@ -33,6 +36,18 @@ public class Document {
     @Column(name = "ID", nullable = false)
     @Id
     private UUID id;
+
+    @JoinTable(name = "DOCUMENT_USER_WRITE_LINK",
+            joinColumns = @JoinColumn(name = "DOCUMENT_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"))
+    @ManyToMany
+    private List<User> writers;
+
+    @JoinTable(name = "DOCUMENT_USER_READ_LINK",
+            joinColumns = @JoinColumn(name = "DOCUMENT_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"))
+    @ManyToMany
+    private List<User> readers;
 
     @JoinColumn(name = "WEBDAV_DOCUMENT_ID")
     @OneToOne(fetch = FetchType.LAZY)
@@ -69,6 +84,22 @@ public class Document {
     @DeletedDate
     @Column(name = "DELETED_DATE")
     private OffsetDateTime deletedDate;
+
+    public List<User> getReaders() {
+        return readers;
+    }
+
+    public void setReaders(List<User> readers) {
+        this.readers = readers;
+    }
+
+    public List<User> getWriters() {
+        return writers;
+    }
+
+    public void setWriters(List<User> writers) {
+        this.writers = writers;
+    }
 
     public String getTitle() {
         return title;
