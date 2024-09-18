@@ -16,11 +16,11 @@ import io.jmix.webdav.entity.WebdavDocumentVersion;
 import io.jmix.webdav.entity.WebdavLink;
 import io.jmix.webdav.entity.WebdavLockDescriptor;
 
-@ResourceRole(name = "WebdavUser", code = WebdavUserRole.CODE)
-public interface WebdavUserRole {
-    String CODE = "webdav-user";
+@ResourceRole(name = "DocumentManagement", code = DocumentManagementRole.CODE)
+public interface DocumentManagementRole {
+    String CODE = "document-management";
 
-    @MenuPolicy(menuIds = {"webdav_WebdavDocument.list", "Document.list", "User.list"})
+    @MenuPolicy(menuIds = {"Document.list"})
     @ViewPolicy(viewIds = {"webdav_WebdavDocument.list", "Document.list", "Document.detail", "User.list"})
     void screens();
 
@@ -52,7 +52,7 @@ public interface WebdavUserRole {
     @EntityPolicy(entityClass = Document.class, actions = EntityPolicyAction.ALL)
     void document();
 
-    @EntityAttributePolicy(entityClass = User.class, attributes = "*", action = EntityAttributePolicyAction.MODIFY)
+    @EntityAttributePolicy(entityClass = User.class, attributes = "*", action = EntityAttributePolicyAction.VIEW)
     @EntityPolicy(entityClass = User.class, actions = EntityPolicyAction.ALL)
     void user();
 }

@@ -33,7 +33,7 @@ dependencies {
     implementation 'io.jmix.security:jmix-security-starter'
     implementation 'io.jmix.security:jmix-security-flowui-starter'
     implementation 'io.jmix.security:jmix-security-data-starter'
-    implementation 'io.jmix.localfs:jmix-localfs-starter'
+    //implementation 'io.jmix.localfs:jmix-localfs-starter'
     implementation 'io.jmix.flowui:jmix-flowui-starter'
     implementation 'io.jmix.flowui:jmix-flowui-data-starter'
     implementation 'io.jmix.flowui:jmix-flowui-themes'
@@ -43,7 +43,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     runtimeOnly 'org.hsqldb:hsqldb'
-
+    implementation 'org.postgresql:postgresql'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
@@ -51,7 +51,7 @@ dependencies {
     implementation 'io.jmix.webdav:jmix-webdav-rest-starter'
     implementation 'io.jmix.webdav:jmix-webdav-starter'
     implementation 'io.jmix.webdav:jmix-webdav-flowui-starter'
-    //implementation 'io.jmix.awsfs:jmix-awsfs-starter'
+    implementation 'io.jmix.awsfs:jmix-awsfs-starter'
 }
 
 test {
@@ -60,4 +60,11 @@ test {
 
 vaadin {
     optimizeBundle = false
+}
+bootRun {
+    args = ["--spring.profiles.active=dev"]
+}
+
+tasks.named("bootBuildImage") {
+    environment["BPE_APPEND_JAVA_TOOL_OPTIONS"] = " -Dspring.profiles.active=prod"
 }
